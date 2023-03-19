@@ -98,7 +98,7 @@ const QrScanner = () => {
         company: guestResultDoc.company,
         contact: guestResultDoc.contact,
         table: guestResultDoc.table,
-        isPresent: guestResultDoc.isPresent,
+        isPresent: true,
         isQrChecked: guestResultDoc.isQrChecked,
         isCommentsSubmitted: guestResultDoc.isCommentsSubmitted,
         note: guestResultDoc.note,
