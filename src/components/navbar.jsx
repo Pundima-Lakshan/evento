@@ -25,8 +25,9 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="hidden sm:flex sm:flex-row text-lg w-full py-5 px-36 mb-8 bg-slate-200 justify-around items-center shadow-lg">
+    <nav className="hidden sm:flex sm:flex-row text-lg w-full py-5 px-36 mb-16 bg-gradient-to-b from-blue-50 to-blue-100 justify-around items-center shadow-lg">
       <Link
+        to="/participation"
         style={
           isCurrentPage("/participation") ? activeLinkStyle : inactiveLinkStyle
         }
@@ -34,6 +35,7 @@ const Navbar = () => {
         Participation
       </Link>
       <Link
+        to="/qr-scanner"
         style={
           isCurrentPage("/") || isCurrentPage("/qr-scanner")
             ? activeLinkStyle
@@ -43,6 +45,7 @@ const Navbar = () => {
         QR Scanner
       </Link>
       <Link
+        to="/participants"
         style={
           isCurrentPage("/participants") ? activeLinkStyle : inactiveLinkStyle
         }
@@ -50,6 +53,7 @@ const Navbar = () => {
         Participants
       </Link>
       <Link
+        to="/qr-generator"
         style={
           isCurrentPage("/qr-generator") ? activeLinkStyle : inactiveLinkStyle
         }
