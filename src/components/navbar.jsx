@@ -25,42 +25,46 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="hidden sm:flex sm:flex-row text-lg w-full py-5 px-36 mb-16 bg-gradient-to-b from-blue-50 to-blue-100 justify-around items-center shadow-lg">
-      <Link
-        to="/participation"
-        style={
-          isCurrentPage("/participation") ? activeLinkStyle : inactiveLinkStyle
-        }
-      >
-        Participation
-      </Link>
-      <Link
-        to="/qr-scanner"
-        style={
-          isCurrentPage("/") || isCurrentPage("/qr-scanner")
-            ? activeLinkStyle
-            : inactiveLinkStyle
-        }
-      >
-        QR Scanner
-      </Link>
-      <Link
-        to="/participants"
-        style={
-          isCurrentPage("/participants") ? activeLinkStyle : inactiveLinkStyle
-        }
-      >
-        Participants
-      </Link>
-      <Link
-        to="/qr-generator"
-        style={
-          isCurrentPage("/qr-generator") ? activeLinkStyle : inactiveLinkStyle
-        }
-      >
-        QR Generator
-      </Link>
-    </nav>
+    <div className="sm:pt-8">
+      <nav className="hover:bg-gradient-to-br hover:from-sky-100 hidden sm:flex sm:flex-row text-lg w-5/6 rounded-lg mx-auto py-5 px-36 mb-10 bg-gradient-to-br from-zinc-100 to-white justify-around items-center shadow-lg">
+        <Link
+          to="/participations"
+          style={
+            isCurrentPage("/participations")
+              ? activeLinkStyle
+              : inactiveLinkStyle
+          }
+        >
+          Participations
+        </Link>
+        <Link
+          to="/qr-scanner"
+          style={
+            isCurrentPage("/") || isCurrentPage("/qr-scanner")
+              ? activeLinkStyle
+              : inactiveLinkStyle
+          }
+        >
+          QR Scanner
+        </Link>
+        <Link
+          to="/participants"
+          style={
+            isCurrentPage("/participants") ? activeLinkStyle : inactiveLinkStyle
+          }
+        >
+          Participants
+        </Link>
+        <Link
+          to="/qr-generator"
+          style={
+            isCurrentPage("/qr-generator") ? activeLinkStyle : inactiveLinkStyle
+          }
+        >
+          QR Generator
+        </Link>
+      </nav>
+    </div>
   );
 };
 

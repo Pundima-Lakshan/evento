@@ -69,7 +69,7 @@ const QrGenerator = () => {
       <Navbar />
       <div className="w-4/5 mx-auto grid grid-cols-3 gap-5">
         {/* qr generator */}
-        <div className="shadow-lg bg-gradient-to-br from-sky-50 to-sky-200 p-8 rounded-lg flex flex-col align-middle justify-between">
+        <div className="shadow-lg bg-gradient-to-br from-zinc-100 to-white hover:bg-gradient-to-br hover:from-blue-100 p-8 rounded-lg flex flex-col align-middle justify-between">
           <h3 className="text-center font-bold text-lg text-sky-900 h-9">
             Generate QR
           </h3>
@@ -116,7 +116,7 @@ const QrGenerator = () => {
         </div>
 
         {/* qr file scanner */}
-        <div className="shadow-lg bg-gradient-to-br from-red-50 to-red-200 p-9 rounded-lg flex flex-col align-middle justify-between">
+        <div className="shadow-lg bg-gradient-to-br from-zinc-100 to-white hover:bg-gradient-to-br hover:from-red-100 p-9 rounded-lg flex flex-col align-middle justify-between">
           <h3 className="text-center font-bold text-lg text-red-900 h-9">
             Scan QR From File
           </h3>
@@ -147,7 +147,7 @@ const QrGenerator = () => {
         </div>
 
         {/* qr webcam scanner */}
-        <div className="shadow-lg bg-gradient-to-br from-green-50 to-green-200 p-9 rounded-lg flex flex-col align-middle justify-between">
+        <div className="shadow-lg bg-gradient-to-br from-zinc-100 to-white hover:bg-gradient-to-br hover:from-green-100 p-9 rounded-lg flex flex-col align-middle justify-between">
           <h3 className="text-center font-bold text-lg text-green-900 h-9">
             Scan QR From Camera
           </h3>

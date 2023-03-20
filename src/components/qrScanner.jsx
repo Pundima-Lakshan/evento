@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import QrReader from "react-qr-reader";
 import Navbar from "./navbar";
 import {
@@ -16,13 +16,19 @@ const QrScanner = () => {
   const [scanResult, setScanResult] = useState("");
   const [isScanning, setIsScanning] = useState(true);
   const [isInputDisabled, setIsInputDisabled] = useState(true);
+  const [isConfirmBtnClicked, setIsConfirmBtnlicked] = useState(false);
   const [guestResultDoc, setGuestResultDoc] = useState({
-    id: "documentIDinFirebase",
-    qrKeyCode: "12545",
-    name: "abc perera",
-    designation: "senior pm",
-    company: "abc holdings",
-    table: "001",
+    id: "10248",
+    qrKeyCode: "125df",
+    name: "VINET",
+    designation: "PM",
+    company: "abc company",
+    contact: 123456789,
+    table: 2,
+    isPresent: true,
+    isQrChecked: true,
+    isCommentsSubmitted: true,
+    note: "CJ",
   });
 
   async function getGuestResultDoc(fieldValue) {
@@ -74,7 +80,9 @@ const QrScanner = () => {
       if (result !== null) {
         setGuestResultDoc(() => result);
         setIsScanning((prevValue) => !prevValue);
+        setIsConfirmBtnlicked(false);
         setScanResult("");
+        setIsConfirmBtnlicked(true);
       }
     });
   }
@@ -85,8 +93,6 @@ const QrScanner = () => {
 
   function handleUpdateBtnClick(event) {
     event.preventDefault();
-
-    console.log(guestResultDoc);
 
     const documentRef = doc(db, collectionName, guestResultDoc.id);
     setDoc(
@@ -122,6 +128,19 @@ const QrScanner = () => {
     });
   }
 
+  useEffect(() => {
+    if (isScanning) return;
+    const documentRef = doc(db, collectionName, guestResultDoc.id);
+    setDoc(
+      documentRef,
+      {
+        isQrChecked: true,
+      },
+      { merge: true }
+    ).catch((error) => alert(error));
+    guestResultDoc.isQrChecked = true;
+  }, [isConfirmBtnClicked]);
+
   return (
     <div>
       <Navbar />
@@ -129,8 +148,8 @@ const QrScanner = () => {
       <div className="sm:w-3/5 lg:w-1/3 xl:w-1/4 sm:mx-auto">
         {/* qr cam scanner section */}
         {isScanning && (
-          <div className="sm:rounded-lg sm:shadow-xl sm:p-9 sm:h-fit w-screen sm:w-full h-screen bg-gradient-to-tr from-sky-50 to-sky-200 flex flex-col flex-auto items-center">
-            <h1 className="font-bold text-sky-900 bg-gradient-to-br from-sky-200 to-sky-100 text-center text-lg justify-items-start w-full py-5 border-b-4 border-sky-600 shadow-xl sm:hidden">
+          <div className="sm:rounded-lg sm:shadow-xl sm:p-9 sm:h-fit w-screen sm:w-full h-screen bg-gradient-to-br from-zinc-100 to-white hover:bg-gradient-to-br hover:from-blue-100 flex flex-col flex-auto items-center">
+            <h1 className="font-bold text-sky-900 bg-gradient-to-br from-slate-200 to-white text-center text-md justify-items-start w-full py-5 shadow-lg sm:hidden">
               QR CamScanner
             </h1>
             <div className="w-full row-span-2 py-12">
@@ -164,7 +183,7 @@ const QrScanner = () => {
                   value={scanResult}
                   onChange={handleChange}
                   disabled={!isInputDisabled}
-                  className="font-bold p-1 px-2 rounded-md shadow"
+                  className="text-lg font-bold p-1 px-2 rounded-md shadow"
                 />
                 <br></br>
                 <br></br>
@@ -173,7 +192,7 @@ const QrScanner = () => {
 
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-sky-500 to-blue-500 font-bold text-white w-full py-3 rounded-lg shadow-md"
+                  className="text-base bg-gradient-to-r from-sky-500 to-blue-500 font-bold text-white w-full py-3 rounded-lg shadow-md"
                 >
                   Confirm
                 </button>
@@ -184,14 +203,14 @@ const QrScanner = () => {
 
         {/* qr scanner results section */}
         {!isScanning && (
-          <div className="sm:rounded-lg sm:shadow-xl sm:p-9 sm:h-fit w-screen sm:w-full h-screen bg-gradient-to-tr from-green-50 to-green-200 flex flex-col flex-auto items-center">
-            <h1 className="font-bold text-green-900 bg-gradient-to-br from-slate-200 to-green-100 text-center text-lg justify-items-start w-full py-5 border-b-4 border-green-600 shadow-xl sm:hidden">
+          <div className="sm:rounded-lg sm:shadow-xl sm:p-9 sm:h-fit w-screen sm:w-full h-screen hover:bg-gradient-to-br hover:from-green-100 flex flex-col flex-auto items-center">
+            <h1 className="font-bold text-green-900 bg-gradient-to-br from-slate-200 to-white text-center text-md justify-items-start w-full py-5 shadow-lg sm:hidden">
               QR Results
             </h1>
 
             <form
               onSubmit={handleUpdateBtnClick}
-              className="text-green-900 text-left py-12"
+              className="text-green-900 text-left text-lg py-12"
             >
               <label
                 htmlFor="qrKeyCode"
@@ -282,7 +301,7 @@ const QrScanner = () => {
               <div className="flex flex-row justify-between">
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-green-400 to-green-500 font-bold text-white w-[48%] p-3 rounded-lg shadow-md"
+                  className="text-base bg-gradient-to-r from-green-400 to-green-500 font-bold text-white w-[48%] p-3 rounded-lg shadow-md"
                 >
                   Update
                 </button>
@@ -290,7 +309,7 @@ const QrScanner = () => {
                   <button
                     type="button"
                     onClick={handleEditBtnClick}
-                    className="bg-transparent font-bold text-green-500 w-[48%] border-4 border-solid border-green-500 p-2 rounded-lg shadow-md"
+                    className="text-base bg-transparent font-bold text-green-500 w-[48%] border-4 border-solid border-green-500 p-2 rounded-lg shadow-md"
                   >
                     Edit
                   </button>
