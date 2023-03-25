@@ -19,7 +19,7 @@ import {
   doc,
   addDoc,
   deleteDoc,
-  getDocs,
+  onSnapshot,
 } from "firebase/firestore";
 
 import Navbar from "./navbar";
@@ -42,73 +42,27 @@ const Participants = () => {
     },
   ]);
   const [prevRequestType, setPrevRequestType] = useState("none");
-  const [isUpdate, setIsUpdate] = useState(false);
-
-  const fetchParticipantRecords = async () => {
-    await getDocs(collection(db, collectionName)).then((participantsFromDb) => {
-      const newData = participantsFromDb.docs.map((doc) => {
-        return {
-          ...doc.data(),
-          id: doc.id,
-        };
-      });
-
-      setParticipants(newData);
-      setIsUpdate(false);
-    });
-  };
 
   useEffect(() => {
-    fetchParticipantRecords();
-  }, [isUpdate]);
+    const unsubscribe = onSnapshot(
+      collection(db, collectionName),
+      (snapshot) => {
+        const newData = snapshot.docs.map((doc) => {
+          return {
+            ...doc.data(),
+            id: doc.id,
+          };
+        });
+
+        setParticipants(newData);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   function handleCUD(event) {
     const { requestType, data } = event;
-
-    // const IsdataValid = () => {
-    //   if (data === undefined) return false;
-    //   for (let [key, value] of Object.entries(data)) {
-    //     switch (key) {
-    //       case "id":
-    //       case "qrKeyCode":
-    //       case "name":
-    //       case "designation":
-    //       case "company":
-    //       case "note": {
-    //         const pattern = /^.+$/;
-    //         if (pattern.test(value)) {
-    //           return true;
-    //         }
-    //         break;
-    //       }
-    //       case "contact": {
-    //         const pattern = /^[1-9]\d{9}$/;
-    //         if (!pattern.test(value)) {
-    //           return true;
-    //         }
-    //         break;
-    //       }
-    //       case "table": {
-    //         const pattern = /^(0|[1-9]\d{0,1}|2[0-9]{1,2}|300)$/;
-    //         if (!pattern.test(value)) {
-    //           return true;
-    //         }
-    //         break;
-    //       }
-    //       case "isPresent":
-    //       case "isQrChecked":
-    //       case "isCommentsSubmitted":
-    //         if (typeof value !== "boolean") {
-    //           return true;
-    //         }
-    //         break;
-    //       default: {
-    //         alert(`no key named ${key}`);
-    //       }
-    //     }
-    //     alert(`wrong input in ${key}`);
-    //   }
-    // };
 
     const applyCUD = async () => {
       if (prevRequestType == "add" && requestType == "save") {
@@ -117,7 +71,6 @@ const Participants = () => {
         //if (!IsdataValid()) return;
         try {
           await addDoc(collection(db, collectionName), data);
-          setIsUpdate(true);
           setPrevRequestType("save");
         } catch (error) {
           alert(error);
@@ -142,7 +95,6 @@ const Participants = () => {
             },
             { merge: true }
           );
-          setIsUpdate(true);
           setPrevRequestType("save");
         } catch (error) {
           alert(error);
@@ -151,7 +103,6 @@ const Participants = () => {
         // code to delete record
         try {
           await deleteDoc(doc(db, collectionName, data[0].id));
-          setIsUpdate(true);
           setPrevRequestType("delete");
         } catch (error) {
           alert(error);

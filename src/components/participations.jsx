@@ -9,52 +9,54 @@ const Participations = () => {
   const [numParticipants, setNumParticipants] = useState(0);
   const [numArrivedParticipants, setNumArrivedParticipants] = useState(0);
 
-  useState(() => {
-    const q = query(collection(db, collectionName));
-    const unsubscribe = onSnapshot(
-      q,
-      (querySnapshot) => {
-        const count = querySnapshot.size;
-        setNumParticipants(count);
-      },
-      []
-    );
-
-    return unsubscribe;
-  });
-
-  useState(() => {
-    const q = query(
+  useEffect(() => {
+    const participantsQuery = query(collection(db, collectionName));
+    const arrivedParticipantsQuery = query(
       collection(db, collectionName),
       where("isPresent", "==", true)
     );
-    const unsubscribe = onSnapshot(
-      q,
-      (querySnapshot) => {
-        const count = querySnapshot.size;
-        setNumArrivedParticipants(count);
-      },
-      []
+
+    const unsubscribe1 = onSnapshot(
+      participantsQuery,
+      handleParticipantsSnapshot
     );
-    return unsubscribe;
-  });
+    const unsubscribe2 = onSnapshot(
+      arrivedParticipantsQuery,
+      handleArrivedParticipantsSnapshot
+    );
+
+    return () => {
+      unsubscribe1();
+      unsubscribe2();
+    };
+  }, []);
+
+  const handleParticipantsSnapshot = (querySnapshot) => {
+    const count = querySnapshot.size;
+    setNumParticipants(count);
+  };
+
+  const handleArrivedParticipantsSnapshot = (querySnapshot) => {
+    const count = querySnapshot.size;
+    setNumArrivedParticipants(count);
+  };
+
+  const numToArrive = numParticipants - numArrivedParticipants;
 
   return (
     <div>
       <Navbar />
-      <div className="flex flex-row sm:w-3/5 lg:w-1/3 xl:w-2/3 sm:mx-auto">
-        <div className="hover:bg-gradient-to-br hover:from-blue-100 bg-gradient-to-br from-zinc-100 to-white text-blue-900 basis-1/3 mx-3 p-12 rounded-lg shadow-lg">
+      <div className="flex flex-row justify-center gap-4 my-8">
+        <div className="bg-blue-100 text-blue-900 rounded-lg shadow-lg p-8">
           <p className="text-2xl font-bold">{numParticipants}</p>
           <p className="text-md font-thin">Participants Invited</p>
         </div>
-        <div className="hover:bg-gradient-to-br hover:from-green-100 bg-gradient-to-br from-zinc-100 to-white text-green-900 basis-1/3 mx-3 p-12 rounded-lg shadow-lg">
+        <div className="bg-green-100 text-green-900 rounded-lg shadow-lg p-8">
           <p className="text-2xl font-bold">{numArrivedParticipants}</p>
           <p className="text-md font-thin">Participants Arrived</p>
         </div>
-        <div className="hover:bg-gradient-to-br hover:from-red-100 bg-gradient-to-br from-zinc-100 to-white text-red-900 basis-1/3 mx-3 p-12 rounded-lg shadow-lg">
-          <p className="text-2xl font-bold">
-            {numParticipants - numArrivedParticipants}
-          </p>
+        <div className="bg-red-100 text-red-900 rounded-lg shadow-lg p-8">
+          <p className="text-2xl font-bold">{numToArrive}</p>
           <p className="text-md font-thin">Participants To Arrive</p>
         </div>
       </div>

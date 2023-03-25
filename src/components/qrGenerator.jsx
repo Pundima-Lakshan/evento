@@ -36,11 +36,28 @@ const QrGenerator = () => {
     console.log(error);
   };
 
-  const handleScanWebCam = (result) => {
+  // const handleScanWebCam = (result) => {
+  //   if (result) {
+  //     setScanResultWebCam(result);
+  //   }
+  // };
+
+  function handleScanWebCam(result) {
     if (result) {
-      setScanResultWebCam(result);
+      // Split the URL string into an array of substrings using the "/" character as a delimiter
+      const urlParts = result.toString().split("/");
+
+      // Get the last element of the array, which contains the file name and extension
+      const fileNameWithExtension = urlParts[urlParts.length - 1]; // "B1.jpg"
+
+      // Split the file name and extension into an array using the "." character as a delimiter
+      const fileNameParts = fileNameWithExtension.split(".");
+
+      // Get the first element of the array, which contains the file name without the extension
+      const res = fileNameParts[0]; // "B1"
+      setScanResultWebCam(res);
     }
-  };
+  }
 
   const handleConfirmBtnClick = () => {
     setVisitedGuest(scanResultWebCam);
@@ -52,7 +69,18 @@ const QrGenerator = () => {
 
   const handleScanFile = (result) => {
     if (result) {
-      setScanResultFile(result);
+      // Split the URL string into an array of substrings using the "/" character as a delimiter
+      const urlParts = result.toString().split("/");
+
+      // Get the last element of the array, which contains the file name and extension
+      const fileNameWithExtension = urlParts[urlParts.length - 1]; // "B1.jpg"
+
+      // Split the file name and extension into an array using the "." character as a delimiter
+      const fileNameParts = fileNameWithExtension.split(".");
+
+      // Get the first element of the array, which contains the file name without the extension
+      const res = fileNameParts[0]; // "B1"
+      setScanResultFile(res);
     }
   };
 
