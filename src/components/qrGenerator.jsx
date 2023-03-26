@@ -127,9 +127,12 @@ const QrGenerator = () => {
             Scan QR From File
           </h3>
 
-          <h3 className="font-bold text-red-900 text-center">
+          <a
+            className="font-bold text-red-900 text-center"
+            href={scanResultFile}
+          >
             {scanResultFile}
-          </h3>
+          </a>
 
           <QrReader
             ref={qrRef}
@@ -158,9 +161,12 @@ const QrGenerator = () => {
             Scan QR From Camera
           </h3>
 
-          <h3 className="font-bold text-green-900 text-center">
+          <a
+            className="font-bold text-red-900 text-center"
+            href={scanResultWebCam}
+          >
             {scanResultWebCam}
-          </h3>
+          </a>
 
           <QrReader
             delay={300}
