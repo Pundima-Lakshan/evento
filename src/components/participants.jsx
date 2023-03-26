@@ -177,7 +177,7 @@ const Participants = () => {
     },
     {
       field: "isCommentsSubmitted",
-      headerText: "Is Comments Submitted ?",
+      headerText: "Is Feedback Submitted ?",
       textAlign: "Center",
       editType: "booleanedit",
       edit: "booleanParam",
