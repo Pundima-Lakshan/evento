@@ -33,7 +33,6 @@ const Participants = () => {
       name: "VINET",
       designation: "PM",
       company: "abc company",
-      contact: 123456789,
       table: 2,
       isPresent: true,
       isQrChecked: true,
@@ -86,7 +85,6 @@ const Participants = () => {
               name: data.name,
               designation: data.designation,
               company: data.company,
-              contact: data.contact,
               table: data.table,
               isPresent: data.isPresent,
               isQrChecked: data.isQrChecked,
@@ -144,14 +142,8 @@ const Participants = () => {
     },
     {
       field: "company",
-      headerText: "Company",
+      headerText: "Organization/ Institution",
       textAlign: "Center",
-    },
-    {
-      field: "contact",
-      headerText: "Contact",
-      textAlign: "Center",
-      edit: "numericParams",
     },
     {
       field: "table",
