@@ -1,1 +1,3 @@
-A react app
+# Evento
+
+A react web app for managing event attendance using QR
